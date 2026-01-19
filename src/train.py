@@ -68,6 +68,7 @@
 # Transformer trained from scratch in NumPy.
 
 import numpy as np
+import random
 
 # -------------------------
 # Reproducibility
@@ -83,3 +84,9 @@ import numpy as np
 
 np.random.seed(42)
 random.seed(42)
+
+# First we just need to read the file and just store it as one large string
+with open('data_textfiles/the_raven_edgarallanpoe.txt', 'r', encoding="utf-8") as file:
+    content = file.read()
+
+print(content)
