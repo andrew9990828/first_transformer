@@ -89,4 +89,26 @@ random.seed(42)
 with open('data_textfiles/the_raven_edgarallanpoe.txt', 'r', encoding="utf-8") as file:
     content = file.read()
 
-print(content)
+# print(content) just tested we read the file right
+
+# Now we need to loop through the content and find each unique
+# char in the entire textfile and store those as an array of
+# 1d integers
+
+# Use pythons set function to store unique elements automatically
+unique_chars = set()
+
+for ch in content:
+    # store all unique elements
+    unique_chars.add(ch)
+
+# find the length of the list of unique elements
+num_of_chars = len(unique_chars)
+
+# print that we counted how many unique elements we have to test
+print("I have", num_of_chars, "unique elements!")
+
+
+    
+
+
