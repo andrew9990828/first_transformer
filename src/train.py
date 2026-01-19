@@ -99,14 +99,30 @@ with open('data_textfiles/the_raven_edgarallanpoe.txt', 'r', encoding="utf-8") a
 unique_chars = set()
 
 for ch in content:
-    # store all unique elements
+    # Store all unique elements
     unique_chars.add(ch)
 
-# find the length of the list of unique elements
+# Find the length of the list of unique elements
 num_of_chars = len(unique_chars)
 
-# print that we counted how many unique elements we have to test
-print("I have", num_of_chars, "unique elements!")
+# Store the chars as ordered using pythons sorted() function
+vocab = sorted(unique_chars)
+
+# Create mappings
+char_to_idx = {}
+idx_to_char = {}
+
+for idx, char in enumerate(vocab):
+    char_to_idx[char] = idx
+    idx_to_char[idx] = char
+
+# test its correct
+print("Vocab size:", len(vocab))
+print("First 5 char_to_idx:", list(char_to_idx.items())[:5])
+print("First 5 idx_to_char:", list(idx_to_char.items())[:5])
+
+
+
 
 
     
