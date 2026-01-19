@@ -26,3 +26,60 @@
 #   and attention to LayerNorm, residual connections, and gradient updates—is
 #   implemented explicitly to reinforce a first-principles understanding of
 #   how Transformers learn.
+
+
+# =========================
+# Transformer Training Guide (Pure NumPy)
+# =========================
+#
+# SETUP (run once)
+# 1. Read raw text file
+# 2. Build vocabulary (char → int, int → char)
+# 3. Encode entire text as a 1D array of token IDs
+#
+# TRAINING LOOP
+# Outer loop: for epoch in epochs
+#   Inner loop: for step in steps_per_epoch
+#
+# 4. Sample a batch of sequences
+#    - tokens  : (B, T)
+#    - targets : (B, T)  # next-token prediction (shifted by +1)
+#
+# FORWARD PASS (Transformer)
+# 5. Token embedding + positional encoding
+# 6. Self-attention (single head: Q, K, V → attention → weighted sum)
+# 7. Residual connection + LayerNorm
+# 8. Feed-forward network (MLP)
+# 9. Residual connection + LayerNorm
+# 10. Output projection → logits (B, T, V)
+#
+# LEARNING
+# 11. Cross-entropy loss (logits vs targets)
+# 12. Backpropagation (explicit NumPy gradients)
+# 13. Optimizer step (SGD / Adam)
+#
+# 14. Repeat for all batches → next epoch
+
+# ==========================
+# Define the problem/goal
+# ==========================
+# Given a sequence of tokens from a text file, predict the next
+# token at each position using a single-head self-attention
+# Transformer trained from scratch in NumPy.
+
+import numpy as np
+
+# -------------------------
+# Reproducibility
+# -------------------------
+# Fixing the random seeds ensures that:
+# - The synthetic dataset is generated identically on every run
+# - Weight initialization starts from the same parameters
+# - Training dynamics (loss and accuracy curves) are repeatable
+#
+# This is critical for debugging, validating learning behavior,
+# and demonstrating that observed improvements come from the
+# optimization process itself—not from random chance.
+
+np.random.seed(42)
+random.seed(42)
