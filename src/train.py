@@ -3,29 +3,26 @@
 # File Name: train.py
 #
 # Description:
-#   This project implements a minimal single-head Transformer (self-attention)
-#   model from scratch using pure NumPy.
+#   This project implements a minimal single-head Transformer
+#   (self-attention-based language model) from scratch using pure NumPy.
+#
+#   Instead of fabricated datasets, the model is trained directly on raw
+#   text. A text file is tokenized into a sequence of token IDs, and
+#   training examples are formed implicitly by predicting the next token
+#   in a sequence (autoregressive language modeling).
 #
 #   The core ideas demonstrated are:
-#     1) Token representations are projected into Queries, Keys, and Values,
-#        enabling content-based attention over a sequence.
-#     2) Positional information is injected via positional encodings so the
-#        model can reason about token order.
+#     1) Queries, Keys, and Values enable content-based attention over tokens.
+#     2) Positional encodings inject order information into token embeddings.
 #
-#   The model is trained with the same fundamental learning loop used in a
-#   standard neural network:
+#   The model follows the same fundamental learning loop as any neural network:
 #     forward pass (Transformer -> logits),
-#     loss computation (e.g., next-token cross-entropy),
-#     backward pass (explicit gradients for every parameter),
+#     loss computation (next-token cross-entropy),
+#     backward pass (explicit NumPy gradients),
 #     optimizer step (parameter updates),
-#     iteration over batches/epochs.
+#     iteration over batches and epochs.
 #
-#   No machine learning frameworks are used. Every component—from attention
-#   scores and softmax to LayerNorm, residuals, and parameter updates—is
+#   No machine learning frameworks are used. Every component—from tokenization
+#   and attention to LayerNorm, residual connections, and gradient updates—is
 #   implemented explicitly to reinforce a first-principles understanding of
 #   how Transformers learn.
-
-
-
-
-
