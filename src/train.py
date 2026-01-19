@@ -108,6 +108,16 @@ num_of_chars = len(unique_chars)
 # Store the chars as ordered using pythons sorted() function
 vocab = sorted(unique_chars)
 
+# Build explicit character ↔ integer lookup tables.
+# 
+# - A dictionary is used (not a list) because we need to map
+#   arbitrary characters (keys) → integer token IDs (values).
+# - This acts as a static "translator": it does NOT compute anything,
+#   it simply remembers the mapping discovered from the data.
+# - enumerate(vocab) provides both the integer ID (idx) and the
+#   corresponding character in a single loop.
+# ****I'm still learning python thats for my reference :)****
+
 # Create mappings
 char_to_idx = {}
 idx_to_char = {}
@@ -123,7 +133,29 @@ for ch in content:
 
 encoded_txt = np.array(encoded, dtype=int)
 
-print(encoded_txt)
+# **SETUP Completed**
+# We translated the entire raw text into a sequence of integer tokens,
+# where each token ID represents a unique character from the vocabulary.
+# =========================================================================
+
+# Set B and T
+B = 12
+T = 8
+
+# Randomize this later to be "i must be ≤ N - (T+1)""
+i = 1
+
+x = encoded_txt[i : i+T]
+y = encoded_txt[i+1 : i+T+1]
+
+# Test the shapes
+print("x shape:", x.shape)
+print("y shape:", y.shape)
+
+# Check the shift property
+print("Shift check:", np.all(x[1:] == y[:-1]))
+
+
 
 
 
