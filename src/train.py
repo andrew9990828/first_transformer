@@ -112,15 +112,18 @@ vocab = sorted(unique_chars)
 char_to_idx = {}
 idx_to_char = {}
 
+# Loop through to map everything
 for idx, char in enumerate(vocab):
     char_to_idx[char] = idx
     idx_to_char[idx] = char
 
-# test its correct
-print("Vocab size:", len(vocab))
-print("First 5 char_to_idx:", list(char_to_idx.items())[:5])
-print("First 5 idx_to_char:", list(idx_to_char.items())[:5])
+encoded = []
+for ch in content:
+    encoded.append(char_to_idx[ch])
 
+encoded_txt = np.array(encoded, dtype=int)
+
+print(encoded_txt)
 
 
 
