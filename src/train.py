@@ -840,7 +840,7 @@ V_T = np.transpose(V_values, (0, 2, 1))                 # (B, H, T)
 dattention = dout @ V_T                                  # (B, T, T)
 
 att_T = np.transpose(attention, (0, 2, 1))              # (B, T, T)
-dV_values = att_T @ dout                                 # (B, T, H)
+dV_att = att_T @ dout                                 # (B, T, H)
 
 # ------------------------------------------------------------
 # 6.2 Backprop through attention = softmax(scores_masked)
@@ -895,7 +895,7 @@ X_flat = x_seq.reshape(BT, C)                            # (BT, C)
 
 dQ_flat = dQ.reshape(BT, H)                               # (BT, H)
 dK_flat = dK.reshape(BT, H)                               # (BT, H)
-dV_flat = dV_values.reshape(BT, H)                        # (BT, H)
+dV_flat = dV_att.reshape(BT, H)                        # (BT, H)
 
 # Weight gradients
 dWq = X_flat.T @ dQ_flat                                  # (C, H)
@@ -905,7 +905,7 @@ dWv = X_flat.T @ dV_flat                                  # (C, H)
 # Gradient back into x_seq from each projection path
 dx_from_Q = dQ @ Wq.T                                     # (B, T, C)
 dx_from_K = dK @ Wk.T                                     # (B, T, C)
-dx_from_V = dV_values @ Wv.T                              # (B, T, C)
+dx_from_V = dV_att @ Wv.T                              # (B, T, C)
 
 # Total gradient into x_seq combines:
 #   - residual path (dx_seq from Step 7)
@@ -951,3 +951,41 @@ dtoken_embedding_table = np.zeros_like(token_embedding_table)  # (V, C)
 
 # Efficient scatter-add: add dtok[b,t] into row token_id = inputs[b,t]
 np.add.at(dtoken_embedding_table, inputs, dtok)
+
+
+
+# ========================================================
+# Step 13: Optimizer - SGD Parameter Updates
+# ========================================================
+# This step is quite literally the same pattern at the NN
+# I implemented from scratch.
+
+# Just use this repeated formula:
+#   parameter -= learning_rate * gradient
+
+learning_rate = 0.01
+
+# Update all parameters using computed gradients
+token_embedding_table -= learning_rate * dtoken_embedding_table
+positional_embedding_table -= learning_rate * dpositional_embedding_table
+
+Wq -= learning_rate * dWq
+Wk -= learning_rate * dWk
+Wv -= learning_rate * dWv
+
+gamma1 -= learning_rate * dgamma1
+beta1 -= learning_rate * dbeta1
+
+weight1 -= learning_rate * dW1
+bias1 -= learning_rate * db1
+weight2 -= learning_rate * dW2
+bias2 -= learning_rate * db2
+
+gamma2 -= learning_rate * dgamma2
+beta2 -= learning_rate * dbeta2
+
+W_vocab -= learning_rate * dW_vocab
+b_vocab -= learning_rate * db_vocab
+
+
+
