@@ -78,6 +78,17 @@ The model clearly learns:
 
 Nothing fancy — just careful math and a lot of bookkeeping.
 
+## How to Run
+```bash
+python src/train.py
+```
+
+**Requirements:**
+- Python 3.7+
+- NumPy
+
+That's it. No other dependencies.
+
 ## Backpropagation & LLM Assistance (Transparency)
 
 I want to be explicit about this.
